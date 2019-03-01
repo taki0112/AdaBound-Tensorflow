@@ -24,7 +24,7 @@ Simple Tensorflow implementation of ["Adaptive Gradient Methods with Dynamic Bou
 ## Fashion-mnist Result
 <div align="center">
    <img src="/assets/loss.png" width="420">
-  <img src="/assets/accuracy.png"  width="420">
+  <img src="/assets/acc.png"  width="420">
 </div>
 
 ## Related works
