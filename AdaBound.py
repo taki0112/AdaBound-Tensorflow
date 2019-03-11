@@ -61,6 +61,7 @@ class AdaBoundOptimizer(optimizer.Optimizer):
             with ops.colocate_with(first_var):
                 self._beta1_power = variable_scope.variable(self._beta1, name="beta1_power", trainable=False)
                 self._beta2_power = variable_scope.variable(self._beta2, name="beta2_power", trainable=False)
+                self._gamma_multi = variable_scope.variable(self._gamma, name="gamma_multi", trainable=False)
         # Create slots for the first and second moments.
         for v in var_list :
             self._zeros_slot(v, "m", self._name)
@@ -84,12 +85,12 @@ class AdaBoundOptimizer(optimizer.Optimizer):
         beta1_t = math_ops.cast(self._beta1_t, var.dtype.base_dtype)
         beta2_t = math_ops.cast(self._beta2_t, var.dtype.base_dtype)
         epsilon_t = math_ops.cast(self._epsilon_t, var.dtype.base_dtype)
-        gamma_t = math_ops.cast(self._gamma_t, var.dtype.base_dtype)
+        gamma_multi = math_ops.cast(self._gamma_multi, var.dtype.base_dtype)
 
         step_size = (lr_t * math_ops.sqrt(1 - beta2_power) / (1 - beta1_power))
         final_lr = self._final_lr * lr_t / base_lr_t
-        lower_bound = final_lr * (1. - 1. / (gamma_t + 1.))
-        upper_bound = final_lr * (1. + 1. / (gamma_t))
+        lower_bound = final_lr * (1. - 1. / (gamma_multi + 1.))
+        upper_bound = final_lr * (1. + 1. / (gamma_multi))
 
         # m_t = beta1 * m + (1 - beta1) * g_t
         m = self.get_slot(var, "m")
@@ -127,12 +128,12 @@ class AdaBoundOptimizer(optimizer.Optimizer):
         beta1_t = math_ops.cast(self._beta1_t, grad.dtype.base_dtype)
         beta2_t = math_ops.cast(self._beta2_t, grad.dtype.base_dtype)
         epsilon_t = math_ops.cast(self._epsilon_t, grad.dtype.base_dtype)
-        gamma_t = math_ops.cast(self._gamma_t, var.dtype.base_dtype)
+        gamma_multi = math_ops.cast(self._gamma_multi, var.dtype.base_dtype)
 
         step_size = (lr_t * math_ops.sqrt(1 - beta2_power) / (1 - beta1_power))
         final_lr = self._final_lr * lr_t / base_lr_t
-        lower_bound = final_lr * (1. - 1. / (gamma_t + 1.))
-        upper_bound = final_lr * (1. + 1. / (gamma_t))
+        lower_bound = final_lr * (1. - 1. / (gamma_multi + 1.))
+        upper_bound = final_lr * (1. + 1. / (gamma_multi))
 
         # m_t = beta1 * m + (1 - beta1) * g_t
         m = self.get_slot(var, "m").handle
@@ -232,5 +233,8 @@ class AdaBoundOptimizer(optimizer.Optimizer):
                 update_beta2 = self._beta2_power.assign(
                     self._beta2_power * self._beta2_t,
                     use_locking=self._use_locking)
-        return control_flow_ops.group(*update_ops + [update_beta1, update_beta2],
+                update_gamma = self._gamma_multi.assign(
+                    self._gamma_multi + self._gamma_t,
+                    use_locking=self._use_locking)
+        return control_flow_ops.group(*update_ops + [update_beta1, update_beta2, update_gamma],
                                       name=name_scope)
