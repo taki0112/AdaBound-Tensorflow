@@ -29,7 +29,7 @@ from tensorflow.python.ops.clip_ops import clip_by_value
     """
 
 class AdaBoundOptimizer(optimizer.Optimizer):
-    def __init__(self, learning_rate=0.001, final_lr=0.01, beta1=0.9, beta2=0.999,
+    def __init__(self, learning_rate=0.001, final_lr=0.1, beta1=0.9, beta2=0.999,
                  gamma=1e-3, epsilon=1e-8, amsbound=False,
                  use_locking=False, name="AdaBound"):
         super(AdaBoundOptimizer, self).__init__(use_locking, name)
