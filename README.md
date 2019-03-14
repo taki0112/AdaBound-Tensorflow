@@ -27,7 +27,7 @@ Simple Tensorflow implementation of ["Adaptive Gradient Methods with Dynamic Bou
 
 ## Fashion-mnist Result
 
-### lr=0.01, final_lr=0.1, beta1=0.9, beta2=0.99, batch_size=32
+### batch_size=32, lr=0.01, final_lr=0.1, beta1=0.9, beta2=0.99
 
 <div align="center">
    <img src="/assets/99_loss.png" width="420">
@@ -44,7 +44,7 @@ AMSBound | **87.76%** |
 
 ---
 
-### lr=0.01, final_lr=0.1, beta1=0.9, beta2=0.999, batch_size=32
+### batch_size=32, lr=0.01, final_lr=0.1, beta1=0.9, beta2=0.999
 
 <div align="center">
    <img src="/assets/999_loss.png" width="420">
