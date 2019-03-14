@@ -1,6 +1,10 @@
 # AdaBound-Tensorflow
 Simple Tensorflow implementation of ["Adaptive Gradient Methods with Dynamic Bound of Learning Rate" (ICLR 2019)](https://openreview.net/forum?id=Bkg3g2R9FX)
 
+<p align='center'>
+  <img src='https://www.luolc.com/assets/research/adabound/adabound-banner.png' width="60%"/>
+</p>
+
 ## Hyperparameter
 * `learning_rate` = 0.01
 * `final_lr` = 0.1
