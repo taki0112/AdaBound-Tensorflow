@@ -49,7 +49,7 @@ AMSBound | **87.76%** |
 
 *Optimizer* | *Best Test Acc* | 
 :---: | :---: | 
-SGD | 86.33% |
+SGD | 86.45% |
 Adam | 86.14% |
 AMSGrad | 86.63% |
 AdaBound | 86.88% |
