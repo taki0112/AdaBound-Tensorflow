@@ -11,7 +11,7 @@ Simple Tensorflow implementation of ["Adaptive Gradient Methods with Dynamic Bou
 ```python
   from AdaBound import AdaBoundOptimizer
   
-  train_op = AdaBoundOptimizer(learning_rate=0.01, final_lr=0.1, beta1=0.9, beta2=0.999, amsgrad=False).minimize(loss)
+  train_op = AdaBoundOptimizer(learning_rate=0.01, final_lr=0.1, beta1=0.9, beta2=0.999, amsbound=False).minimize(loss)
 ```
 
 ## Network Architecture
