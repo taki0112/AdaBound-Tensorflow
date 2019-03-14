@@ -38,6 +38,8 @@ AMSGrad | 87.28% |
 AdaBound | 87.68% |
 AMSBound | **87.76%** |
 
+---
+
 ### lr=0.01, final_lr=0.1, beta1=0.9, beta2=0.999, batch_size=32
 
 <div align="center">
