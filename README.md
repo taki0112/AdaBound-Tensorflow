@@ -32,7 +32,7 @@ Simple Tensorflow implementation of ["Adaptive Gradient Methods with Dynamic Bou
 
 *Optimizer* | *Best Test Acc* | 
 :---: | :---: | 
-SGD | 86.45% |
+SGD | 86.33% |
 Adam | 85.81% |
 AMSGrad | 87.28% |
 AdaBound | 87.68% |
@@ -49,7 +49,7 @@ AMSBound | **87.76%** |
 
 *Optimizer* | *Best Test Acc* | 
 :---: | :---: | 
-SGD | 86.45% |
+SGD | 86.33% |
 Adam | 86.14% |
 AMSGrad | 86.63% |
 AdaBound | 86.88% |
