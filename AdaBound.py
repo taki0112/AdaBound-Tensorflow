@@ -120,7 +120,6 @@ class AdaBoundOptimizer(optimizer.Optimizer):
         return control_flow_ops.group(*[var_update, m_t, v_t, vhat_t])
 
     def _resource_apply_dense(self, grad, var):
-        var = var.handle
         beta1_power = math_ops.cast(self._beta1_power, grad.dtype.base_dtype)
         beta2_power = math_ops.cast(self._beta2_power, grad.dtype.base_dtype)
         lr_t = math_ops.cast(self._lr_t, grad.dtype.base_dtype)
@@ -136,17 +135,17 @@ class AdaBoundOptimizer(optimizer.Optimizer):
         upper_bound = final_lr * (1. + 1. / (gamma_multi))
 
         # m_t = beta1 * m + (1 - beta1) * g_t
-        m = self.get_slot(var, "m").handle
+        m = self.get_slot(var, "m")
         m_scaled_g_values = grad * (1 - beta1_t)
         m_t = state_ops.assign(m, beta1_t * m + m_scaled_g_values, use_locking=self._use_locking)
 
         # v_t = beta2 * v + (1 - beta2) * (g_t * g_t)
-        v = self.get_slot(var, "v").handle
+        v = self.get_slot(var, "v")
         v_scaled_g_values = (grad * grad) * (1 - beta2_t)
         v_t = state_ops.assign(v, beta2_t * v + v_scaled_g_values, use_locking=self._use_locking)
 
         # amsgrad
-        vhat = self.get_slot(var, "vhat").handle
+        vhat = self.get_slot(var, "vhat")
         if self._amsbound:
             vhat_t = state_ops.assign(vhat, math_ops.maximum(v_t, vhat))
             v_sqrt = math_ops.sqrt(vhat_t)
@@ -216,7 +215,7 @@ class AdaBoundOptimizer(optimizer.Optimizer):
 
     def _resource_scatter_add(self, x, i, v):
         with ops.control_dependencies(
-                [resource_variable_ops.resource_scatter_add(x.handle, i, v)]):
+                [resource_variable_ops.resource_scatter_add(x, i, v)]):
             return x.value()
 
     def _resource_apply_sparse(self, grad, var, indices):
